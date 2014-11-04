@@ -31,10 +31,6 @@
 				 }
 			 }
 
-
-
-
-
 			 var stage = new PIXI.Stage(0xFFFFFF);
 			 var renderer = PIXI.autoDetectRenderer(2000, 360);
 			 document.body.appendChild(renderer.view);
@@ -55,24 +51,13 @@
 						parts.push(part);
 					}
 				}
-				
-				// var i = parts.length
-				// Int = setInterval(function() {
-				// 	i--;
-				// 	parts[i].x += 150;
-				// 	renderer.render(stage);
-				// 	if(i == 0) {
-				// 		clearInterval(Int);
-				// 	}
-				// }, 500);
-				var minus = [];
+
 				var effectStarted = [];
 				var effectFinished =[];
 				function animate() {
 
 					requestAnimFrame( animate );
 					for(var i in parts) {
-						// if(i %2 != 0) { continue; }
 
 						if(effectStarted.length < parts.length) {
 							parts[i].alpha = 0;
@@ -91,20 +76,8 @@
 								break;
 							}
 						}
-
-						// if(parts[i].alpha > 5) {
-						// 	minus[i] = true;
-						// }
-						// if(parts[i].alpha < 1) {
-						// 	minus[i] = false;
-						// }
-						// if(minus[i]) {
-							// parts[i].alpha -= Math.random() * 0.1;
-						// } else {
-						// 	parts[i].alpha += Math.random() * 0.1;
-						// }
 					}
-					
+
 					// render the stage
 					renderer.render(stage);
 				}
@@ -112,7 +85,7 @@
 
 
 		 }
-			
+
 
 
 
