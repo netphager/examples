@@ -54,6 +54,7 @@ var ImageToPeaces = (function () {
     };
     ImageToPeaces.prototype.startEffect = function () {
         var that = this;
+        var requestId = requestAnimationFrame(that.startEffect.bind(that));
         for (var i = 0; i < that.parts.length; i++) {
             if (that.effectStarted.length < that.parts.length) {
                 that.parts[i].alpha = 0;
