@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title of the document</title>
+	<script type="text/javascript" src="pixi.dev.js"></script>
+
+
+</head>
+
+<body>
+	<script type="text/javascript">
+
+
+		var image = new Image();
+		var widthOfOnePiece = 30;
+		var heightOfOnePiece = 30;
+		image.onload = cutImageUp;
+		image.src = 'myimage.jpg';
+		// console.log(image.width());
+		function cutImageUp() {
+		 var imagePieces = {};
+			 for(var x = 0; x < 960/widthOfOnePiece; ++x) {
+				 imagePieces[x] = {};
+				 for(var y = 0; y < 360/heightOfOnePiece; ++y) {
+					 var canvas = document.createElement('canvas');
+					 canvas.width = widthOfOnePiece;
+					 canvas.height = heightOfOnePiece;
+					 var context = canvas.getContext('2d');
+					 context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
+					 imagePieces[x][y] = canvas.toDataURL();
+				 }
+			 }
+
+
+
+
+
+			 var stage = new PIXI.Stage(0xFFFFFF);
+			 var renderer = PIXI.autoDetectRenderer(2000, 360);
+			 document.body.appendChild(renderer.view);
+			 var parts = [];
+			 requestAnimFrame( animate );
+			 console.log(imagePieces);
+			 var i = 0;
+				for(var x in imagePieces) {
+					for(var y in imagePieces[x]) {
+						var texture = PIXI.Texture.fromImage(imagePieces[x][y]);
+						// create a new Sprite using the texture
+						var part = new PIXI.Sprite(texture);
+						// move the sprite t the center of the screen
+						part.position.x = x * widthOfOnePiece;
+						part.position.y = y * widthOfOnePiece;
+						i++;
+						stage.addChild(part);
+						parts.push(part);
+					}
+				}
+				
+				// var i = parts.length
+				// Int = setInterval(function() {
+				// 	i--;
+				// 	parts[i].x += 150;
+				// 	renderer.render(stage);
+				// 	if(i == 0) {
+				// 		clearInterval(Int);
+				// 	}
+				// }, 500);
+				var minus = [];
+				var effectStarted = [];
+				var effectFinished =[];
+				function animate() {
+
+					requestAnimFrame( animate );
+					for(var i in parts) {
+						// if(i %2 != 0) { continue; }
+
+						if(effectStarted.length < parts.length) {
+							parts[i].alpha = 0;
+							effectStarted[i] = 1;
+						} else {
+							if(effectFinished[i-1] == 1 || i == 0) {
+								setTimeout(function(b) {
+									if(parts[b].alpha < 1) {
+										parts[b].alpha += Math.random() * 0.1;
+										effectFinished[b] = 1;
+									} else {
+										parts[b].alpha = 1;
+									}
+								}, 100,i);
+							} else {
+								break;
+							}
+						}
+
+						// if(parts[i].alpha > 5) {
+						// 	minus[i] = true;
+						// }
+						// if(parts[i].alpha < 1) {
+						// 	minus[i] = false;
+						// }
+						// if(minus[i]) {
+							// parts[i].alpha -= Math.random() * 0.1;
+						// } else {
+						// 	parts[i].alpha += Math.random() * 0.1;
+						// }
+					}
+					
+					// render the stage
+					renderer.render(stage);
+				}
+
+
+
+		 }
+			
+
+
+
+	</script>
+</body>
+
+</html>
